@@ -5,6 +5,10 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+
+	_ "github.com/sendyhalim/berisiq/setup"
+
+	"github.com/sendyhalim/berisiq/http/handlers/v1/notifications"
 )
 
 func main() {
@@ -17,6 +21,13 @@ func main() {
 
 	// Routes
 	e.GET("/", hello)
+
+	// Endpoint to send notification
+	e.POST("/notifications", notifications.SendNotification)
+
+	// Endpoint to get notification by key
+
+	// Endpoint to get notification by prefix
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
