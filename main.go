@@ -1,10 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
+	"os"
 
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/go-chi/chi"
 
 	_ "github.com/sendyhalim/berisiq/setup"
 
@@ -12,28 +13,13 @@ import (
 )
 
 func main() {
-	// Echo instance
-	e := echo.New()
+	router := chi.NewRouter()
 
-	// Middleware
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+	router.Post("/notifications", notifications.SendNotification)
 
-	// Routes
-	e.GET("/", hello)
+	port := os.Getenv("HTTP_PORT")
 
-	// Endpoint to send notification
-	e.POST("/notifications", notifications.SendNotification)
+	fmt.Printf("Listening on port %s", port)
 
-	// Endpoint to get notification by key
-
-	// Endpoint to get notification by prefix
-
-	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
-}
-
-// Handler
-func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!")
+	http.ListenAndServe(":"+port, router)
 }
