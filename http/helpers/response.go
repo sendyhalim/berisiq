@@ -2,9 +2,19 @@ package helpers
 
 import (
 	"net/http"
+
+	"github.com/unrolled/render"
 )
 
+type jsonObj map[string]interface{}
+
+var r = render.New()
+
 func ServerError(w http.ResponseWriter, err error) {
-	// TODO: Return json
-	http.Error(w, err.Error(), 500)
+	r.JSON(w, http.StatusInternalServerError, jsonObj{
+		"error": jsonObj{
+			"type":    "InternalServerError",
+			"message": err.Error(),
+		},
+	})
 }
