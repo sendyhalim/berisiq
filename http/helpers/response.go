@@ -18,3 +18,9 @@ func ServerError(w http.ResponseWriter, err error) {
 		},
 	})
 }
+
+func Success(w http.ResponseWriter, data interface{}) {
+	r.JSON(w, http.StatusOK, jsonObj{
+		"data": data,
+	})
+}

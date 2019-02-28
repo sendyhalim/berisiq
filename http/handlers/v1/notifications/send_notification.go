@@ -19,5 +19,5 @@ func SendNotification(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("test"))
+	httpHelpers.Success(w, "test")
 }
